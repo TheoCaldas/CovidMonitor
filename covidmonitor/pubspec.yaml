@@ -1,5 +1,5 @@
 name: covidmonitor
-description: A new Flutter project.
+description: This app helps you monitoring COVID-19 cases in Brazil, as well as regestering your personal sympthons.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.3
 
 
   # The following adds the Cupertino Icons font to your application.
