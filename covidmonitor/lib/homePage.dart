@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
         });
     if (response.statusCode == 200) {
       final statesResult = statesResultFromJson(response.body);
-      debugStateResult(statesResult);
+      // debugStateResult(statesResult);
       return statesResult;
     } else {
       print("statusCode: " + response.statusCode.toString());
