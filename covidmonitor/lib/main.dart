@@ -1,4 +1,5 @@
 import 'package:covidmonitor/homePage.dart';
+import 'package:covidmonitor/profilePage.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 
@@ -41,10 +42,7 @@ class _NavigationState extends State<Navigation> {
       'Index 2: School',
       style: optionStyle,
     ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
