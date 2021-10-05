@@ -78,8 +78,8 @@ class _NavigationState extends State<Navigation> {
             backgroundColor: Constants.backgroundColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.person),
+            label: 'Profile',
             backgroundColor: Constants.backgroundColor,
           ),
         ],
