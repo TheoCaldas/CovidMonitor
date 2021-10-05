@@ -1,3 +1,4 @@
+import 'package:covidmonitor/stateDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'states.dart';
@@ -66,8 +67,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: snapshot.data!.results.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
-                      color: Constants.primaryColor,
-                      child: Center(
+                    color: Constants.primaryColor,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StateDetail(
+                                        title:
+                                            snapshot.data!.results[index].state,
+                                        data: snapshot.data!.results[index],
+                                      )));
+                        },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -84,7 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           ],
                         ),
-                      ));
+                      ),
+                    ),
+                  );
                 });
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
