@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../controller/states.dart';
 import '../model/constants.dart';
+import 'package:covidmonitor/model/stateInfo.dart';
 
 class StateDetail extends StatelessWidget {
   StateDetail({Key? key, required this.title, required this.data})
       : super(key: key);
 
   final String title;
-  final Result data;
+  final StateInfo data;
 
   @override
   Widget build(BuildContext context) {

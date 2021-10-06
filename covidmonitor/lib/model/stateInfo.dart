@@ -1,45 +1,5 @@
-// To parse this JSON data, do
-//
-//     final statesResult = statesResultFromJson(jsonString);
-
-import 'dart:convert';
-
-StatesResult statesResultFromJson(String str) =>
-    StatesResult.fromJson(json.decode(str));
-
-String statesResultToJson(StatesResult data) => json.encode(data.toJson());
-
-class StatesResult {
-  StatesResult({
-    required this.count,
-    this.next,
-    this.previous,
-    required this.results,
-  });
-
-  int count;
-  dynamic next;
-  dynamic previous;
-  List<Result> results;
-
-  factory StatesResult.fromJson(Map<String, dynamic> json) => StatesResult(
-        count: json["count"],
-        next: json["next"],
-        previous: json["previous"],
-        results:
-            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "next": next,
-        "previous": previous,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-      };
-}
-
-class Result {
-  Result({
+class StateInfo {
+  StateInfo({
     required this.city,
     required this.cityIbgeCode,
     required this.confirmed,
@@ -67,7 +27,7 @@ class Result {
   String placeType;
   String state;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory StateInfo.fromJson(Map<String, dynamic> json) => StateInfo(
         city: json["city"],
         cityIbgeCode: json["city_ibge_code"],
         confirmed: json["confirmed"],
