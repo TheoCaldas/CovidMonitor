@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Navigation(title: 'Monitor de COVID-19 no Brasil'),
+      home: Navigation(title: 'Monitor Brasileiro de COVID-19'),
     );
   }
 }
@@ -35,11 +35,7 @@ class _NavigationState extends State<Navigation> {
   static List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
     Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
+      'Dados pessoais',
       style: optionStyle,
     ),
     ProfilePage(),
@@ -61,32 +57,27 @@ class _NavigationState extends State<Navigation> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Constants.backgroundColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-            backgroundColor: Constants.backgroundColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-            backgroundColor: Constants.backgroundColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: Constants.backgroundColor,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Constants.primaryColor,
-        onTap: _onItemTapped,
-      ),
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.coronavirus),
+              label: 'Estatísticas',
+              backgroundColor: Constants.backgroundColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.medical_services),
+              label: 'Acompanhamento',
+              backgroundColor: Constants.backgroundColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+              backgroundColor: Constants.backgroundColor,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Constants.primaryColor,
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.shifting),
     );
   }
 }

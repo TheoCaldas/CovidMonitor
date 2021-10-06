@@ -17,8 +17,7 @@ class _ProfilePage extends State<ProfilePage> {
     return Column(
       children: [
         Container(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100.0),
+          child: ClipOval(
             child: image,
           ),
           padding: EdgeInsets.all(100.0),
