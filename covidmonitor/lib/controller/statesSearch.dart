@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:covidmonitor/model/stateInfo.dart';
 import 'package:covidmonitor/model/stateInfoSearchResult.dart';
 
@@ -10,7 +11,8 @@ String stateInfoSearchResultToJson(StateInfoSearchResult data) =>
     json.encode(data.toJson());
 
 Future<StateInfoSearchResult> fetchData() async {
-  final String token = "e5349b4e3b8483d3a425f109b50a726e6afc0058";
+  await dotenv.load(fileName: "token.env");
+  final String token = dotenv.get('TOKEN');
   final response = await http.get(
       Uri.parse(
           'https://api.brasil.io/dataset/covid19/caso/data?is_last=True&place_type=state'),
@@ -19,7 +21,6 @@ Future<StateInfoSearchResult> fetchData() async {
       });
   if (response.statusCode == 200) {
     final statesInfo = stateInfoSearchResultFromJson(response.body);
-    // debugStateResult(statesResult);
     return statesInfo;
   } else {
     print("statusCode: " + response.statusCode.toString());
@@ -27,9 +28,9 @@ Future<StateInfoSearchResult> fetchData() async {
   }
 }
 
-void debugStateResult(StateInfoSearchResult statesInfo) {
-  for (int i = 0; i < statesInfo.results.length; i++) {
-    StateInfo stateInfo = statesInfo.results[i];
+void debugStateInfoSearchResult(StateInfoSearchResult stateInfoSearchResult) {
+  for (int i = 0; i < stateInfoSearchResult.results.length; i++) {
+    StateInfo stateInfo = stateInfoSearchResult.results[i];
     print(stateInfo.state +
         " - " +
         stateInfo.confirmed.toString() +
