@@ -10,16 +10,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
-  var image = Image.asset("assets/logo.png");
+  Image? image;
+  var defaultImage = SizedBox.fromSize(
+    size: Size.fromRadius(50),
+    child: FittedBox(
+      child: Icon(Icons.person),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          child: ClipOval(
-            child: image,
-          ),
+          child: Center(
+              child: ClipOval(
+            child: (image == null) ? defaultImage : image,
+          )),
           padding: EdgeInsets.all(100.0),
         ),
         ElevatedButton(
@@ -33,7 +40,7 @@ class _ProfilePage extends State<ProfilePage> {
               setState(() {});
             }
           },
-          child: Icon(Icons.add, color: Colors.white),
+          child: Icon(Icons.camera_alt, color: Colors.white),
         )
       ],
     );
