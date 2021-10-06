@@ -30,14 +30,9 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    MyHomePage(),
-    Text(
-      'Dados pessoais',
-      style: optionStyle,
-    ),
+    StatisticsPage(),
+    Text('Dados pessoais'),
     ProfilePage(),
   ];
 
@@ -53,8 +48,9 @@ class _NavigationState extends State<Navigation> {
         title: Text(widget.title),
         backgroundColor: Constants.backgroundColor,
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[

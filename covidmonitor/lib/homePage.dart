@@ -4,14 +4,14 @@ import 'package:http/http.dart' as http;
 import 'states.dart';
 import 'constants.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class StatisticsPage extends StatefulWidget {
+  StatisticsPage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _StatisticsPageState createState() => _StatisticsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _StatisticsPageState extends State<StatisticsPage> {
   late Future<StatesResult> _statesResult;
 
   Future<StatesResult> fetchData() async {
