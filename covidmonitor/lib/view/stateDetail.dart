@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'states.dart';
-import 'constants.dart';
+import '../controller/states.dart';
+import '../model/constants.dart';
 
 class StateDetail extends StatelessWidget {
   StateDetail({Key? key, required this.title, required this.data})

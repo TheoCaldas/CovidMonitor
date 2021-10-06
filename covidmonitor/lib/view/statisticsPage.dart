@@ -1,8 +1,8 @@
-import 'package:covidmonitor/stateDetail.dart';
+import 'package:covidmonitor/view/stateDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'states.dart';
-import 'constants.dart';
+import '../controller/states.dart';
+import '../model/constants.dart';
 
 class StatisticsPage extends StatefulWidget {
   StatisticsPage({Key? key}) : super(key: key);
