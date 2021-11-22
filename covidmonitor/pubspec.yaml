@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   http: ^0.13.3
   image_picker: 
+  image_cropper:
   flutter_dotenv: ">=5.0.0"
 
 

@@ -1,3 +1,4 @@
+import 'package:covidmonitor/view/vacination.dart';
 import 'package:flutter/material.dart';
 import 'package:covidmonitor/view/statisticsPage.dart';
 import 'package:covidmonitor/view/profilePage.dart';
@@ -15,7 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     StatisticsPage(),
-    Text('Dados pessoais'),
+    Vacination(),
     ProfilePage(),
   ];
 
