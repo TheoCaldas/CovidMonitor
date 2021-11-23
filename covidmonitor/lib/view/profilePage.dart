@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:covidmonitor/controller/database.dart';
+import 'package:covidmonitor/model/userData.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
@@ -19,6 +21,13 @@ class _ProfilePage extends State<ProfilePage> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    //UserData userData = DBProvider.db.getSingleUserData();
+    //print(userData.profileImagePath);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -31,18 +40,35 @@ class _ProfilePage extends State<ProfilePage> {
         ),
         ElevatedButton(
           onPressed: () async {
-            final ImagePicker _picker = ImagePicker();
-            final XFile? xFile =
-                await _picker.pickImage(source: ImageSource.gallery);
+            UserData userData = await DBProvider.db.getSingleUserData();
+            print(userData.profileImagePath);
+
+            final XFile? xFile = await pickImage();
             if (xFile != null) {
-              final File file = File(xFile.path);
-              image = Image.file(file);
-              setState(() {});
+              updateProfileImagePath(xFile);
+              setImageByFile(xFile);
             }
           },
           child: Icon(Icons.camera_alt, color: Colors.white),
         )
       ],
     );
+  }
+
+  Future<XFile?> pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    return _picker.pickImage(source: ImageSource.gallery);
+  }
+
+  void updateProfileImagePath(XFile xFile) async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    userData.profileImagePath = xFile.path;
+    await DBProvider.db.updateUserData(userData);
+  }
+
+  void setImageByFile(XFile xFile) {
+    final File file = File(xFile.path);
+    image = Image.file(file);
+    setState(() {});
   }
 }
