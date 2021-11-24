@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:covidmonitor/controller/database.dart';
 import 'package:covidmonitor/model/userData.dart';
 import 'package:covidmonitor/controller/imageGet.dart';
+import 'dart:io';
 
 class Vacination extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _VacinationState extends State<Vacination> {
   @override
   void initState() {
     super.initState();
-    image = mockImage();
+    image = getUserDataVacPassImage();
   }
 
   @override
@@ -87,8 +88,12 @@ class _VacinationState extends State<Vacination> {
     return Image.file(cropped);
   }
 
-  Future<Image?> mockImage() async {
-    await DBProvider.db.getSingleUserData();
-    return null;
+  Future<Image?> getUserDataVacPassImage() async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    if (userData.vacPassImagePath == null || userData.vacPassImagePath == "") {
+      return null;
+    }
+    final File file = File(userData.vacPassImagePath!);
+    return Image.file(file);
   }
 }
