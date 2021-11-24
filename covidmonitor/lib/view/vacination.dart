@@ -46,6 +46,7 @@ class _VacinationState extends State<Vacination> {
       );
       setState(() {
         if (_selectedImage != null) {
+          print("oi");
           _selectedImage = cropped;
           _inProcess = false;
         }

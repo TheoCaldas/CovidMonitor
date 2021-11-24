@@ -81,25 +81,35 @@ class _ProfilePage extends State<ProfilePage> {
                     )),
               ],
             )),
-        TextFormField(
-          controller: _nameEditingController,
-          decoration: const InputDecoration(border: null, labelText: 'Nome'),
-          onFieldSubmitted: (text) async {
-            updateName(text);
-          },
+        Container(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: TextFormField(
+            controller: _nameEditingController,
+            decoration: const InputDecoration(border: null, labelText: 'Nome'),
+            onFieldSubmitted: (text) async {
+              updateName(text);
+            },
+          ),
         ),
         SizedBox(height: 20),
-        NumberPicker(
-          value: currentAge,
-          minValue: 0,
-          maxValue: 100,
-          onChanged: (value) async {
-            updateAge(value);
-            setState(() {
-              currentAge = value;
-            });
-          },
-        ),
+        Row(
+          children: [
+            Spacer(),
+            Text("Idade: "),
+            NumberPicker(
+              value: currentAge,
+              minValue: 0,
+              maxValue: 100,
+              onChanged: (value) async {
+                updateAge(value);
+                setState(() {
+                  currentAge = value;
+                });
+              },
+            ),
+            Spacer(),
+          ],
+        )
       ],
     );
   }
