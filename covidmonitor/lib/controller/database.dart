@@ -107,3 +107,9 @@ void updateVacPassImagePath(String path) async {
   userData.vacPassImagePath = path;
   await DBProvider.db.updateUserData(userData);
 }
+
+void updateVacDate(String vacDate) async {
+  UserData userData = await DBProvider.db.getSingleUserData();
+  userData.vacDate = vacDate;
+  await DBProvider.db.updateUserData(userData);
+}

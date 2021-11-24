@@ -17,6 +17,7 @@ class _VacinationState extends State<Vacination> {
   late Future<Image?> image;
   Image? currentImage;
   DateTime currentDate = DateTime.now();
+  String? vacDate;
 
   var defaultImage = SizedBox.fromSize(
     size: Size.fromRadius(50),
@@ -29,6 +30,7 @@ class _VacinationState extends State<Vacination> {
   void initState() {
     super.initState();
     image = getUserDataVacPassImage();
+    getUserDataVacDate();
   }
 
   @override
@@ -79,12 +81,23 @@ class _VacinationState extends State<Vacination> {
                     )),
               ],
             )),
-        Text(currentDate.toString()),
-        SizedBox(height: 20.0),
-        ElevatedButton(
-          onPressed: () => _selectDate(context),
-          child: Text('Select date'),
-        ),
+        Row(
+          children: [
+            Spacer(),
+            Text("Tomou segundo dose em: " + (vacDate ?? "-/-/-")),
+            SizedBox(width: 20.0),
+            ElevatedButton(
+              onPressed: () => _selectDate(context),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Constants.backgroundColor)),
+              child: Icon(
+                Icons.calendar_today,
+              ),
+            ),
+            Spacer(),
+          ],
+        )
       ],
     )));
   }
@@ -95,10 +108,13 @@ class _VacinationState extends State<Vacination> {
         initialDate: currentDate,
         firstDate: DateTime(2015),
         lastDate: DateTime(2050));
-    if (pickedDate != null && pickedDate != currentDate)
+    if (pickedDate != null && pickedDate != currentDate) {
+      updateVacDate(formatDate(pickedDate));
       setState(() {
         currentDate = pickedDate;
+        vacDate = formatDate(pickedDate);
       });
+    }
   }
 
   Future<Image?> chooseImageFromCamera() async {
@@ -118,5 +134,21 @@ class _VacinationState extends State<Vacination> {
     }
     final File file = File(userData.vacPassImagePath!);
     return Image.file(file);
+  }
+
+  String formatDate(DateTime date) {
+    return date.day.toString() +
+        "/" +
+        date.month.toString() +
+        "/" +
+        date.year.toString();
+  }
+
+  void getUserDataVacDate() async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    if (userData.vacDate == null || userData.vacDate == "") return;
+    setState(() {
+      vacDate = userData.vacDate;
+    });
   }
 }
