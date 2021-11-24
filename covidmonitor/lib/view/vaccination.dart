@@ -51,6 +51,8 @@ class _VacinationState extends State<Vacination> {
             child: Stack(
               children: [
                 Center(
+                    child: ClipRRect(
+                  borderRadius: BorderRadius.circular(40.0),
                   child: FutureBuilder<Image?>(
                     future: image,
                     builder: (context, snapshot) {
@@ -64,7 +66,7 @@ class _VacinationState extends State<Vacination> {
                       }
                     },
                   ),
-                ),
+                )),
                 Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
