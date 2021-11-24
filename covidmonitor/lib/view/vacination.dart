@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:covidmonitor/controller/database.dart';
 import 'package:covidmonitor/model/userData.dart';
 import 'package:covidmonitor/controller/imageGet.dart';
+import 'package:covidmonitor/model/constants.dart';
 import 'dart:io';
 
 class Vacination extends StatefulWidget {
@@ -33,37 +34,59 @@ class _VacinationState extends State<Vacination> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisSize: MainAxisSize.min,
+        body: Center(
+            child: Column(
       children: <Widget>[
+        SizedBox(height: 20.0),
+        Text(
+          "Carteira de Vacinação SUS",
+          style: Constants.theme.headline2,
+        ),
+        Container(
+            width: 350,
+            height: 300,
+            padding: EdgeInsets.all(10),
+            child: Stack(
+              children: [
+                Center(
+                  child: FutureBuilder<Image?>(
+                    future: image,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        currentImage = snapshot.data!;
+                        return snapshot.data!;
+                      } else if (currentImage != null) {
+                        return currentImage!;
+                      } else {
+                        return defaultImage;
+                      }
+                    },
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        image = chooseImageFromCamera();
+                        setState(() {});
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.backgroundColor)),
+                      child: Icon(
+                        Icons.edit,
+                      ),
+                    )),
+              ],
+            )),
         Text(currentDate.toString()),
         SizedBox(height: 20.0),
         ElevatedButton(
           onPressed: () => _selectDate(context),
           child: Text('Select date'),
         ),
-        FutureBuilder<Image?>(
-          future: image,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              currentImage = snapshot.data!;
-              return snapshot.data!;
-            } else if (currentImage != null) {
-              return currentImage!;
-            } else {
-              return defaultImage;
-            }
-          },
-        ),
-        ElevatedButton(
-          onPressed: () {
-            image = chooseImageFromCamera();
-            setState(() {});
-          },
-          child: Text('Camera'),
-        ),
       ],
-    ));
+    )));
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -81,8 +104,8 @@ class _VacinationState extends State<Vacination> {
   Future<Image?> chooseImageFromCamera() async {
     final pickedFile = await pickImage(ImageSource.gallery);
     if (pickedFile == null) return null;
-    final cropped =
-        await cropImage(pickedFile.path, CropAspectRatio(ratioX: 1, ratioY: 1));
+    final cropped = await cropImage(
+        pickedFile.path, CropAspectRatio(ratioX: 1.3, ratioY: 1));
     if (cropped == null) return null;
     updateVacPassImagePath(cropped.path);
     return Image.file(cropped);

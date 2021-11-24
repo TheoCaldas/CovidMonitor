@@ -9,6 +9,11 @@ class Constants {
       fontWeight: FontWeight.bold,
       color: Constants.backgroundColor,
     ),
+    headline2: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Constants.backgroundColor,
+      fontSize: 28,
+    ),
     bodyText1: TextStyle(
       fontWeight: FontWeight.normal,
       color: Constants.backgroundColor,
