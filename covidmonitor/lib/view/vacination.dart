@@ -81,10 +81,10 @@ class _VacinationState extends State<Vacination> {
   Future<Image?> chooseImageFromCamera() async {
     final pickedFile = await pickImage(ImageSource.gallery);
     if (pickedFile == null) return null;
-    updateVacPassImagePath(pickedFile.path);
     final cropped =
         await cropImage(pickedFile.path, CropAspectRatio(ratioX: 1, ratioY: 1));
     if (cropped == null) return null;
+    updateVacPassImagePath(cropped.path);
     return Image.file(cropped);
   }
 

@@ -120,10 +120,10 @@ class _ProfilePage extends State<ProfilePage> {
   Future<Image?> chooseImageFromGalery() async {
     final pickedFile = await pickImage(ImageSource.gallery);
     if (pickedFile == null) return null;
-    updateProfileImagePath(pickedFile.path);
     final cropped =
         await cropImage(pickedFile.path, CropAspectRatio(ratioX: 1, ratioY: 1));
     if (cropped == null) return null;
+    updateProfileImagePath(cropped.path);
     return Image.file(cropped);
   }
 
