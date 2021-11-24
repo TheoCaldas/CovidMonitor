@@ -48,11 +48,8 @@ class _ProfilePage extends State<ProfilePage> {
             padding: EdgeInsets.all(50),
             child: Stack(
               children: [
-                Container(
-                  width: 500,
-                  height: 300,
-                  child: FittedBox(
-                    fit: BoxFit.fitHeight,
+                Center(
+                  child: ClipOval(
                     child: FutureBuilder<Image?>(
                       future: image,
                       builder: (context, snapshot) {
