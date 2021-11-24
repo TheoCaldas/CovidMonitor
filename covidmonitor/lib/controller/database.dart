@@ -83,3 +83,27 @@ class DBProvider {
     }
   }
 }
+
+void updateProfileImagePath(String path) async {
+  UserData userData = await DBProvider.db.getSingleUserData();
+  userData.profileImagePath = path;
+  await DBProvider.db.updateUserData(userData);
+}
+
+void updateName(String name) async {
+  UserData userData = await DBProvider.db.getSingleUserData();
+  userData.name = name;
+  await DBProvider.db.updateUserData(userData);
+}
+
+void updateAge(int age) async {
+  UserData userData = await DBProvider.db.getSingleUserData();
+  userData.age = age;
+  await DBProvider.db.updateUserData(userData);
+}
+
+void updateVacPassImagePath(String path) async {
+  UserData userData = await DBProvider.db.getSingleUserData();
+  userData.vacPassImagePath = path;
+  await DBProvider.db.updateUserData(userData);
+}

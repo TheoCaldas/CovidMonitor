@@ -1,11 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:covidmonitor/controller/database.dart';
 import 'package:covidmonitor/model/userData.dart';
-import 'package:covidmonitor/model/constants.dart';
+import 'package:covidmonitor/controller/imageGet.dart';
 
 class Vacination extends StatefulWidget {
   @override
@@ -13,11 +12,8 @@ class Vacination extends StatefulWidget {
 }
 
 class _VacinationState extends State<Vacination> {
-  // final picker = ImagePicker();
-  // File? _selectedImage;
   late Future<Image?> image;
   Image? currentImage;
-  // bool _inProcess = false;
   DateTime currentDate = DateTime.now();
 
   var defaultImage = SizedBox.fromSize(
@@ -60,7 +56,7 @@ class _VacinationState extends State<Vacination> {
         ),
         ElevatedButton(
           onPressed: () {
-            image = getImage(ImageSource.camera);
+            image = chooseImageFromCamera();
             setState(() {});
           },
           child: Text('Camera'),
@@ -81,26 +77,14 @@ class _VacinationState extends State<Vacination> {
       });
   }
 
-  Future<Image?> getImage(ImageSource src) async {
-    final ImagePicker picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: src);
-    if (pickedFile != null) {
-      File? cropped = await ImageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        compressQuality: 100,
-        maxHeight: 700,
-        maxWidth: 700,
-        compressFormat: ImageCompressFormat.jpg,
-        iosUiSettings: IOSUiSettings(
-          title: 'Cortar Imagem',
-        ),
-      );
-      if (cropped != null) {
-        return Image.file(cropped);
-      }
-    }
-    return null;
+  Future<Image?> chooseImageFromCamera() async {
+    final pickedFile = await pickImage(ImageSource.gallery);
+    if (pickedFile == null) return null;
+    updateVacPassImagePath(pickedFile.path);
+    final cropped =
+        await cropImage(pickedFile.path, CropAspectRatio(ratioX: 1, ratioY: 1));
+    if (cropped == null) return null;
+    return Image.file(cropped);
   }
 
   Future<Image?> mockImage() async {

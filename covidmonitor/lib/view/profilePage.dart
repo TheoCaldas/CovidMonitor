@@ -1,10 +1,13 @@
+import 'package:covidmonitor/view/vacination.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:covidmonitor/controller/database.dart';
 import 'package:covidmonitor/model/userData.dart';
 import 'package:covidmonitor/model/constants.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'dart:io';
+import 'package:covidmonitor/controller/imageGet.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -114,23 +117,14 @@ class _ProfilePage extends State<ProfilePage> {
     );
   }
 
-  Future<XFile?> pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    return _picker.pickImage(source: ImageSource.gallery);
-  }
-
-  void updateProfileImagePath(XFile xFile) async {
-    UserData userData = await DBProvider.db.getSingleUserData();
-    userData.profileImagePath = xFile.path;
-    await DBProvider.db.updateUserData(userData);
-  }
-
   Future<Image?> chooseImageFromGalery() async {
-    final XFile? xFile = await pickImage();
-    if (xFile == null) return null;
-    updateProfileImagePath(xFile);
-    final File file = File(xFile.path);
-    return Image.file(file, width: 100, height: 100);
+    final pickedFile = await pickImage(ImageSource.gallery);
+    if (pickedFile == null) return null;
+    updateProfileImagePath(pickedFile.path);
+    final cropped =
+        await cropImage(pickedFile.path, CropAspectRatio(ratioX: 1, ratioY: 1));
+    if (cropped == null) return null;
+    return Image.file(cropped);
   }
 
   Future<Image?> getUserDataProfileImage() async {
@@ -139,19 +133,7 @@ class _ProfilePage extends State<ProfilePage> {
       return null;
     }
     final File file = File(userData.profileImagePath!);
-    return Image.file(file, width: 100, height: 100);
-  }
-
-  void updateName(String name) async {
-    UserData userData = await DBProvider.db.getSingleUserData();
-    userData.name = name;
-    await DBProvider.db.updateUserData(userData);
-  }
-
-  void updateAge(int age) async {
-    UserData userData = await DBProvider.db.getSingleUserData();
-    userData.age = age;
-    await DBProvider.db.updateUserData(userData);
+    return Image.file(file);
   }
 
   void getUserDataName() async {
