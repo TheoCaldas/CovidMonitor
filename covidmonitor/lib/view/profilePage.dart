@@ -12,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
-  Image? image;
+  late Future<Image?> image;
   var defaultImage = SizedBox.fromSize(
     size: Size.fromRadius(50),
     child: FittedBox(
@@ -23,8 +23,7 @@ class _ProfilePage extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    //UserData userData = DBProvider.db.getSingleUserData();
-    //print(userData.profileImagePath);
+    image = getUserDataProfileImage();
   }
 
   @override
@@ -34,20 +33,23 @@ class _ProfilePage extends State<ProfilePage> {
         Container(
           child: Center(
               child: ClipOval(
-            child: (image == null) ? defaultImage : image,
+            child: FutureBuilder<Image?>(
+              future: image,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return snapshot.data!;
+                } else {
+                  return defaultImage;
+                }
+              },
+            ),
           )),
           padding: EdgeInsets.all(100.0),
         ),
         ElevatedButton(
           onPressed: () async {
-            UserData userData = await DBProvider.db.getSingleUserData();
-            print(userData.profileImagePath);
-
-            final XFile? xFile = await pickImage();
-            if (xFile != null) {
-              updateProfileImagePath(xFile);
-              setImageByFile(xFile);
-            }
+            image = chooseImageFromGalery();
+            setState(() {});
           },
           child: Icon(Icons.camera_alt, color: Colors.white),
         )
@@ -66,9 +68,20 @@ class _ProfilePage extends State<ProfilePage> {
     await DBProvider.db.updateUserData(userData);
   }
 
-  void setImageByFile(XFile xFile) {
+  Future<Image?> chooseImageFromGalery() async {
+    final XFile? xFile = await pickImage();
+    if (xFile == null) return null;
+    updateProfileImagePath(xFile);
     final File file = File(xFile.path);
-    image = Image.file(file);
-    setState(() {});
+    return Image.file(file);
+  }
+
+  Future<Image?> getUserDataProfileImage() async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    if (userData.profileImagePath == null) {
+      return null;
+    }
+    final File file = File(userData.profileImagePath!);
+    return Image.file(file);
   }
 }
