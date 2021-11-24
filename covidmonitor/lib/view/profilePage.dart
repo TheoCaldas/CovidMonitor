@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:covidmonitor/controller/database.dart';
 import 'package:covidmonitor/model/userData.dart';
+import 'package:covidmonitor/model/constants.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
@@ -35,29 +36,44 @@ class _ProfilePage extends State<ProfilePage> {
             width: 500,
             height: 300,
             padding: EdgeInsets.all(50),
-            child: FittedBox(
-              fit: BoxFit.fitHeight,
-              child: FutureBuilder<Image?>(
-                future: image,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    currentImage = snapshot.data!;
-                    return snapshot.data!;
-                  } else if (currentImage != null) {
-                    return currentImage!;
-                  } else {
-                    return defaultImage;
-                  }
-                },
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  width: 500,
+                  height: 300,
+                  child: FittedBox(
+                    fit: BoxFit.fitHeight,
+                    child: FutureBuilder<Image?>(
+                      future: image,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          currentImage = snapshot.data!;
+                          return snapshot.data!;
+                        } else if (currentImage != null) {
+                          return currentImage!;
+                        } else {
+                          return defaultImage;
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        image = chooseImageFromGalery();
+                        setState(() {});
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.backgroundColor)),
+                      child: Icon(
+                        Icons.camera_alt,
+                      ),
+                    )),
+              ],
             )),
-        ElevatedButton(
-          onPressed: () async {
-            image = chooseImageFromGalery();
-            setState(() {});
-          },
-          child: Icon(Icons.camera_alt, color: Colors.white),
-        )
       ],
     );
   }
