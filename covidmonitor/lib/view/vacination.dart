@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:covidmonitor/controller/database.dart';
+import 'package:covidmonitor/model/userData.dart';
+import 'package:covidmonitor/model/constants.dart';
 
 class Vacination extends StatefulWidget {
   @override
@@ -10,10 +13,61 @@ class Vacination extends StatefulWidget {
 }
 
 class _VacinationState extends State<Vacination> {
-  final picker = ImagePicker();
-  File? _selectedImage;
-  bool _inProcess = false;
+  // final picker = ImagePicker();
+  // File? _selectedImage;
+  late Future<Image?> image;
+  Image? currentImage;
+  // bool _inProcess = false;
   DateTime currentDate = DateTime.now();
+
+  var defaultImage = SizedBox.fromSize(
+    size: Size.fromRadius(50),
+    child: FittedBox(
+      child: Icon(Icons.file_copy),
+    ),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    image = mockImage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(currentDate.toString()),
+        SizedBox(height: 20.0),
+        ElevatedButton(
+          onPressed: () => _selectDate(context),
+          child: Text('Select date'),
+        ),
+        FutureBuilder<Image?>(
+          future: image,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              currentImage = snapshot.data!;
+              return snapshot.data!;
+            } else if (currentImage != null) {
+              return currentImage!;
+            } else {
+              return defaultImage;
+            }
+          },
+        ),
+        ElevatedButton(
+          onPressed: () {
+            image = getImage(ImageSource.camera);
+            setState(() {});
+          },
+          child: Text('Camera'),
+        ),
+      ],
+    ));
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -27,10 +81,8 @@ class _VacinationState extends State<Vacination> {
       });
   }
 
-  getImage(ImageSource src) async {
-    this.setState(() {
-      _inProcess = true;
-    });
+  Future<Image?> getImage(ImageSource src) async {
+    final ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: src);
     if (pickedFile != null) {
       File? cropped = await ImageCropper.cropImage(
@@ -41,86 +93,18 @@ class _VacinationState extends State<Vacination> {
         maxWidth: 700,
         compressFormat: ImageCompressFormat.jpg,
         iosUiSettings: IOSUiSettings(
-          title: 'Camera',
+          title: 'Cortar Imagem',
         ),
       );
-      setState(() {
-        if (_selectedImage != null) {
-          print("oi");
-          _selectedImage = cropped;
-          _inProcess = false;
-        }
-      });
-    } else {
-      setState(() {
-        _inProcess = false;
-      });
+      if (cropped != null) {
+        return Image.file(cropped);
+      }
     }
+    return null;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: (_inProcess)
-          ? Container(
-              color: Colors.white,
-              height: double.infinity,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: 70,
-                height: 70,
-                child: CircularProgressIndicator(
-                  strokeWidth: 5.0,
-                  backgroundColor: Theme.of(context).primaryColor,
-                ),
-              ),
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(currentDate.toString()),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    ElevatedButton(
-                      onPressed: () => _selectDate(context),
-                      child: Text('Select date'),
-                    ),
-                  ],
-                ),
-                _selectedImage != null
-                    ? Image.file(
-                        _selectedImage!,
-                        width: 250,
-                        height: 250,
-                        fit: BoxFit.cover,
-                      )
-                    : Container(
-                        width: 250,
-                        height: 250,
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 200,
-                          color: Colors.grey,
-                        ),
-                      ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        getImage(ImageSource.camera);
-                      },
-                      child: Text('Camera'),
-                    ),
-                  ],
-                )
-              ],
-            ),
-    );
+  Future<Image?> mockImage() async {
+    await DBProvider.db.getSingleUserData();
+    return null;
   }
 }
