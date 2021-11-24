@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePage extends State<ProfilePage> {
   late Future<Image?> image;
+  Image? currentImage;
   var defaultImage = SizedBox.fromSize(
     size: Size.fromRadius(50),
     child: FittedBox(
@@ -37,7 +38,10 @@ class _ProfilePage extends State<ProfilePage> {
               future: image,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  currentImage = snapshot.data!;
                   return snapshot.data!;
+                } else if (currentImage != null) {
+                  return currentImage!;
                 } else {
                   return defaultImage;
                 }
@@ -78,7 +82,7 @@ class _ProfilePage extends State<ProfilePage> {
 
   Future<Image?> getUserDataProfileImage() async {
     UserData userData = await DBProvider.db.getSingleUserData();
-    if (userData.profileImagePath == null) {
+    if (userData.profileImagePath == null || userData.profileImagePath == "") {
       return null;
     }
     final File file = File(userData.profileImagePath!);
