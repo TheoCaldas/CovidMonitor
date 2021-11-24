@@ -1,4 +1,4 @@
-import 'package:covidmonitor/view/vacination.dart';
+import 'package:covidmonitor/view/vaccination.dart';
 import 'package:flutter/material.dart';
 import 'package:covidmonitor/view/statisticsPage.dart';
 import 'package:covidmonitor/view/profilePage.dart';
