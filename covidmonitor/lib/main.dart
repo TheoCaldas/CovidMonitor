@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'view/bottomNavigation.dart';
+import 'controller/notificationService.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init();
   runApp(MyApp());
 }
 

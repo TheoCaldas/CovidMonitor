@@ -1,3 +1,4 @@
+import 'package:covidmonitor/controller/notificationService.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:image_cropper/image_cropper.dart';
@@ -115,12 +116,14 @@ class _VacinationState extends State<Vacination> {
       setState(() {
         currentDate = pickedDate;
         vacDate = formatDate(pickedDate);
+        print("alou");
+        NotificationService.notificationService.scheduleThirdDose(5);
       });
     }
   }
 
   Future<Image?> chooseImageFromCamera() async {
-    final pickedFile = await pickImage(ImageSource.gallery);
+    final pickedFile = await pickImage(ImageSource.camera);
     if (pickedFile == null) return null;
     final cropped = await cropImage(
         pickedFile.path, CropAspectRatio(ratioX: 1.3, ratioY: 1));
