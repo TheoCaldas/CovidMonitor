@@ -29,7 +29,9 @@ class DBProvider {
           " profileImagePath TEXT,"
           " vacPassImagePath TEXT,"
           " vacDate TEXT,"
-          " isVaccinated INTEGER"
+          " isVaccinated INTEGER,"
+          " name TEXT,"
+          " age INTEGER"
           " )");
     });
   }
@@ -38,14 +40,16 @@ class DBProvider {
     final userData = new UserData();
     final db = await database;
     var raw = await db.rawInsert(
-        "INSERT Into UserData (id,profileImagePath,vacPassImagePath,vacDate,isVaccinated)"
-        " VALUES (?,?,?,?,?)",
+        "INSERT Into UserData (id,profileImagePath,vacPassImagePath,vacDate,isVaccinated,name,age)"
+        " VALUES (?,?,?,?,?,?,?)",
         [
           UserData.id,
           userData.profileImagePath ?? "",
           userData.vacPassImagePath ?? "",
           userData.vacDate ?? "",
-          userData.isVaccinated ?? 0
+          userData.isVaccinated ?? 0,
+          userData.name ?? "",
+          userData.age ?? 0
         ]);
     return raw;
   }

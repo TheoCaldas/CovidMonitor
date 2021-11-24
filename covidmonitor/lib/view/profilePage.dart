@@ -15,6 +15,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePage extends State<ProfilePage> {
   late Future<Image?> image;
   Image? currentImage;
+
+  final _nameEditingController = TextEditingController();
+  final _ageEditingController = TextEditingController();
+
   var defaultImage = SizedBox.fromSize(
     size: Size.fromRadius(50),
     child: FittedBox(
@@ -26,6 +30,8 @@ class _ProfilePage extends State<ProfilePage> {
   void initState() {
     super.initState();
     image = getUserDataProfileImage();
+    getUserDataName();
+    getUserDataAge();
   }
 
   @override
@@ -74,6 +80,22 @@ class _ProfilePage extends State<ProfilePage> {
                     )),
               ],
             )),
+        TextFormField(
+          controller: _nameEditingController,
+          decoration: const InputDecoration(border: null, labelText: 'Nome'),
+          onFieldSubmitted: (text) async {
+            updateName(text);
+          },
+        ),
+        SizedBox(height: 20),
+        TextFormField(
+          controller: _ageEditingController,
+          decoration: const InputDecoration(border: null, labelText: 'Idade'),
+          keyboardType: TextInputType.number,
+          onFieldSubmitted: (text) async {
+            updateAge(text);
+          },
+        ),
       ],
     );
   }
@@ -104,5 +126,37 @@ class _ProfilePage extends State<ProfilePage> {
     }
     final File file = File(userData.profileImagePath!);
     return Image.file(file, width: 100, height: 100);
+  }
+
+  void updateName(String name) async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    userData.name = name;
+    await DBProvider.db.updateUserData(userData);
+  }
+
+  void updateAge(String age) async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    userData.age = int.parse(age);
+    await DBProvider.db.updateUserData(userData);
+  }
+
+  void getUserDataName() async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    if (userData.name == null || userData.name == "") {
+      return;
+    }
+    print(userData.name!);
+    _nameEditingController.text = userData.name!;
+    setState(() {});
+  }
+
+  void getUserDataAge() async {
+    UserData userData = await DBProvider.db.getSingleUserData();
+    if (userData.age == null) {
+      return;
+    }
+    print(userData.age!);
+    _ageEditingController.text = userData.age.toString();
+    setState(() {});
   }
 }
