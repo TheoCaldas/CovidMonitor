@@ -18,7 +18,6 @@ class _ProfilePage extends State<ProfilePage> {
   Image? currentImage;
 
   final _nameEditingController = TextEditingController();
-  late Future<Text?> ageText;
   int currentAge = 0;
 
   var defaultImage = SizedBox.fromSize(
@@ -33,7 +32,7 @@ class _ProfilePage extends State<ProfilePage> {
     super.initState();
     image = getUserDataProfileImage();
     getUserDataName();
-    ageText = getUserDataAge();
+    getUserDataAge();
   }
 
   @override
@@ -90,34 +89,17 @@ class _ProfilePage extends State<ProfilePage> {
           },
         ),
         SizedBox(height: 20),
-        // TextFormField(
-        //   controller: _ageEditingController,
-        //   decoration: const InputDecoration(border: null, labelText: 'Idade'),
-        //   keyboardType: TextInputType.number,
-        //   onFieldSubmitted: (text) async {
-        //     updateAge(text);
-        //   },
-        // ),
         NumberPicker(
           value: currentAge,
           minValue: 0,
           maxValue: 100,
           onChanged: (value) async {
-            // setState(() {
-            //   currentAge = value;
-            // });
             updateAge(value);
-            ageText = setUserDataAge(value);
+            setState(() {
+              currentAge = value;
+            });
           },
         ),
-        FutureBuilder<Text?>(
-            future: ageText,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return snapshot.data!;
-              }
-              return Center(child: CircularProgressIndicator());
-            })
       ],
     );
   }
@@ -167,28 +149,17 @@ class _ProfilePage extends State<ProfilePage> {
     if (userData.name == null || userData.name == "") {
       return;
     }
-    // print(userData.name!);
     _nameEditingController.text = userData.name!;
     setState(() {});
   }
 
-  Future<Text?> getUserDataAge() async {
+  void getUserDataAge() async {
     UserData userData = await DBProvider.db.getSingleUserData();
     if (userData.age == null) {
-      return null;
+      return;
     }
-    // print(userData.age!);
     setState(() {
       currentAge = userData.age!;
     });
-    return Text(userData.age!.toString());
-  }
-
-  Future<Text?> setUserDataAge(int age) async {
-    await DBProvider.db.getSingleUserData();
-    setState(() {
-      currentAge = age;
-    });
-    return Text(age.toString());
   }
 }
