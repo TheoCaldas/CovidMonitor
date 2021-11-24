@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:covidmonitor/controller/database.dart';
 import 'package:covidmonitor/model/userData.dart';
 import 'package:covidmonitor/model/constants.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
@@ -17,7 +18,8 @@ class _ProfilePage extends State<ProfilePage> {
   Image? currentImage;
 
   final _nameEditingController = TextEditingController();
-  final _ageEditingController = TextEditingController();
+  late Future<Text?> ageText;
+  int currentAge = 0;
 
   var defaultImage = SizedBox.fromSize(
     size: Size.fromRadius(50),
@@ -31,7 +33,7 @@ class _ProfilePage extends State<ProfilePage> {
     super.initState();
     image = getUserDataProfileImage();
     getUserDataName();
-    getUserDataAge();
+    ageText = getUserDataAge();
   }
 
   @override
@@ -88,14 +90,34 @@ class _ProfilePage extends State<ProfilePage> {
           },
         ),
         SizedBox(height: 20),
-        TextFormField(
-          controller: _ageEditingController,
-          decoration: const InputDecoration(border: null, labelText: 'Idade'),
-          keyboardType: TextInputType.number,
-          onFieldSubmitted: (text) async {
-            updateAge(text);
+        // TextFormField(
+        //   controller: _ageEditingController,
+        //   decoration: const InputDecoration(border: null, labelText: 'Idade'),
+        //   keyboardType: TextInputType.number,
+        //   onFieldSubmitted: (text) async {
+        //     updateAge(text);
+        //   },
+        // ),
+        NumberPicker(
+          value: currentAge,
+          minValue: 0,
+          maxValue: 100,
+          onChanged: (value) async {
+            // setState(() {
+            //   currentAge = value;
+            // });
+            updateAge(value);
+            ageText = setUserDataAge(value);
           },
         ),
+        FutureBuilder<Text?>(
+            future: ageText,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data!;
+              }
+              return Center(child: CircularProgressIndicator());
+            })
       ],
     );
   }
@@ -134,9 +156,9 @@ class _ProfilePage extends State<ProfilePage> {
     await DBProvider.db.updateUserData(userData);
   }
 
-  void updateAge(String age) async {
+  void updateAge(int age) async {
     UserData userData = await DBProvider.db.getSingleUserData();
-    userData.age = int.parse(age);
+    userData.age = age;
     await DBProvider.db.updateUserData(userData);
   }
 
@@ -145,18 +167,28 @@ class _ProfilePage extends State<ProfilePage> {
     if (userData.name == null || userData.name == "") {
       return;
     }
-    print(userData.name!);
+    // print(userData.name!);
     _nameEditingController.text = userData.name!;
     setState(() {});
   }
 
-  void getUserDataAge() async {
+  Future<Text?> getUserDataAge() async {
     UserData userData = await DBProvider.db.getSingleUserData();
     if (userData.age == null) {
-      return;
+      return null;
     }
-    print(userData.age!);
-    _ageEditingController.text = userData.age.toString();
-    setState(() {});
+    // print(userData.age!);
+    setState(() {
+      currentAge = userData.age!;
+    });
+    return Text(userData.age!.toString());
+  }
+
+  Future<Text?> setUserDataAge(int age) async {
+    await DBProvider.db.getSingleUserData();
+    setState(() {
+      currentAge = age;
+    });
+    return Text(age.toString());
   }
 }

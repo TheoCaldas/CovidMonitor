@@ -29,6 +29,7 @@ dependencies:
   flutter_dotenv: ">=5.0.0"
   sqflite:
   path_provider:
+  numberpicker:
 
 
   # The following adds the Cupertino Icons font to your application.
