@@ -32,24 +32,25 @@ class _ProfilePage extends State<ProfilePage> {
     return Column(
       children: [
         Container(
-          child: Center(
-              child: ClipOval(
-            child: FutureBuilder<Image?>(
-              future: image,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  currentImage = snapshot.data!;
-                  return snapshot.data!;
-                } else if (currentImage != null) {
-                  return currentImage!;
-                } else {
-                  return defaultImage;
-                }
-              },
-            ),
-          )),
-          padding: EdgeInsets.all(100.0),
-        ),
+            width: 500,
+            height: 300,
+            padding: EdgeInsets.all(50),
+            child: FittedBox(
+              fit: BoxFit.fitHeight,
+              child: FutureBuilder<Image?>(
+                future: image,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    currentImage = snapshot.data!;
+                    return snapshot.data!;
+                  } else if (currentImage != null) {
+                    return currentImage!;
+                  } else {
+                    return defaultImage;
+                  }
+                },
+              ),
+            )),
         ElevatedButton(
           onPressed: () async {
             image = chooseImageFromGalery();
@@ -77,7 +78,7 @@ class _ProfilePage extends State<ProfilePage> {
     if (xFile == null) return null;
     updateProfileImagePath(xFile);
     final File file = File(xFile.path);
-    return Image.file(file);
+    return Image.file(file, width: 100, height: 100);
   }
 
   Future<Image?> getUserDataProfileImage() async {
@@ -86,6 +87,6 @@ class _ProfilePage extends State<ProfilePage> {
       return null;
     }
     final File file = File(userData.profileImagePath!);
-    return Image.file(file);
+    return Image.file(file, width: 100, height: 100);
   }
 }
