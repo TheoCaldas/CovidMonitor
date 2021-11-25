@@ -45,5 +45,10 @@
 	<string>Enable photo library usage for selection of pictures</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Enable camera usage for taking pictures</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+    	<string>pt-BR</string>
+    	<string>en</string>
+	</array>
 </dict>
 </plist>

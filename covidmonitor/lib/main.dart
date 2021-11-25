@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'view/bottomNavigation.dart';
 import 'controller/notificationService.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,11 +14,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Covid Monitor',
+      onGenerateTitle: (context) {
+        var t = AppLocalizations.of(context);
+        if (t == null) {
+          return "Error";
+        } else {
+          return t.appTitle;
+        }
+      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BottomNavigation(title: 'Monitor Brasileiro de COVID-19'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) {
+          String title;
+          var t = AppLocalizations.of(context);
+          if (t == null) {
+            title = "Matheus";
+          } else {
+            title = t.appTitle;
+          }
+          print(title);
+          return BottomNavigation(title: title);
+        }
+      },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );
