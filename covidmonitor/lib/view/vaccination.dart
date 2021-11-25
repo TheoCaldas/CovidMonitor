@@ -116,9 +116,9 @@ class _VacinationState extends State<Vacination> {
       setState(() {
         currentDate = pickedDate;
         vacDate = formatDate(pickedDate);
-        print("alou");
-        NotificationService.notificationService.scheduleThirdDose(5);
       });
+      await NotificationService.notificationService.cancelAllNotifications();
+      NotificationService.notificationService.scheduleThirdDose(pickedDate);
     }
   }
 

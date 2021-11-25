@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -46,11 +45,11 @@ class NotificationService {
 
   Future selectNotification(String? payload) async {}
 
-  Future<void> showNotification() async {
+  Future<void> showNotification(String title, String body) async {
     await flutterLocalNotificationsPlugin.show(
         12345,
-        "A Notification From My Application",
-        "This notification was sent using Flutter Local Notifcations Package",
+        title,
+        body,
         NotificationDetails(
             iOS: IOSNotificationDetails(
           presentAlert: true,
@@ -61,12 +60,13 @@ class NotificationService {
   }
 
   Future<void> scheduleNotificationDaysFromNow(
-      int days, String title, String body) async {
+      DateTime date, int days, String title, String body) async {
+    final dateTimeZone = tz.TZDateTime.from(date, tz.local);
     await flutterLocalNotificationsPlugin.zonedSchedule(
         12345,
         title,
         body,
-        tz.TZDateTime.now(tz.local).add(Duration(seconds: days)),
+        dateTimeZone.add(Duration(days: days)),
         const NotificationDetails(
             iOS: IOSNotificationDetails(
           presentAlert: true,
@@ -78,19 +78,31 @@ class NotificationService {
         androidAllowWhileIdle: true);
   }
 
-  Future<void> scheduleThirdDose(int days) async {
-    await scheduleNotificationDaysFromNow(
-        days,
-        "Tomar 3a Dose da Vacina Contra o Covid-19",
-        "Já está de você tomar a terceira dose! Corra para o posto de saúde mais próximo.");
+  Future<void> scheduleThirdDose(DateTime fromDate) async {
+    final title = "3a Dose da Vacina Contra o Covid-19";
+    final body =
+        "Já está na hora de você tomar a terceira dose! Corra para o posto de saúde mais próximo.";
+    final days = 90;
+    final finalDay = fromDate.add(Duration(days: days));
+    if (finalDay.difference(DateTime.now()).inDays > 0) {
+      await scheduleNotificationDaysFromNow(
+        fromDate,
+        90,
+        title,
+        body,
+      );
+    } else {
+      showNotification(title, body);
+    }
   }
 
   void cancelNotificationForDate() async {
     //await flutterLocalNotificationsPlugin.cancel(birthday.hashCode);
   }
 
-  void cancelAllNotifications() async {
+  Future<bool> cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
+    return true;
   }
 
   void handleApplicationWasLaunchedFromNotification(String payload) async {
