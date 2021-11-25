@@ -7,6 +7,14 @@
     "btmBarAc" : "Acompanhamento",
     "btmBarProfile" : "Perfil",
     "profileName": "Nome",
-    "profileAge": "Idade"
+    "profileAge": "Idade",
+    "sd1" : "Ultima atualizacao - ",
+    "sd2" : "Taxa de mortos: ",
+    "sd3" : "Casos confirmados: ",
+    "sd4" : "Total de óbitos: ",
+    "sd5" : "Casos/100 mil habitantes: ",
+    "sd6" : "População: "
+
+
 
 }

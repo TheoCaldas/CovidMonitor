@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/constants.dart';
 import 'package:covidmonitor/model/stateInfo.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StateDetail extends StatelessWidget {
   StateDetail({Key? key, required this.title, required this.data})
@@ -11,6 +12,7 @@ class StateDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var t = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Constants.backgroundColor,
@@ -22,7 +24,7 @@ class StateDetail extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                "Ultima atualizacao - " +
+                t!.sd1 +
                     data.date.day.toString() +
                     "/" +
                     data.date.month.toString() +
@@ -38,7 +40,7 @@ class StateDetail extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "Taxa de mortos: " + data.deathRate.toString(),
+                t!.sd2 + data.deathRate.toString(),
                 style: Constants.theme.bodyText1,
               ),
             ),
@@ -49,7 +51,7 @@ class StateDetail extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "Casos confirmados: " + data.confirmed.toString(),
+                t!.sd3 + data.confirmed.toString(),
                 style: Constants.theme.bodyText1,
               ),
             ),
@@ -60,7 +62,7 @@ class StateDetail extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "Total de óbitos: " + data.deaths.toString(),
+                t!.sd4 + data.deaths.toString(),
                 style: Constants.theme.bodyText1,
               ),
             ),
@@ -71,8 +73,7 @@ class StateDetail extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "Casos/100 mil habitantes: " +
-                    data.confirmedPer100KInhabitants.toString(),
+                t!.sd5 + data.confirmedPer100KInhabitants.toString(),
                 style: Constants.theme.bodyText1,
               ),
             ),
@@ -83,7 +84,7 @@ class StateDetail extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                "População: " + data.estimatedPopulation.toString(),
+                t!.sd6 + data.estimatedPopulation.toString(),
                 style: Constants.theme.bodyText1,
               ),
             ),

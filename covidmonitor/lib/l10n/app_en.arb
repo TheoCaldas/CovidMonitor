@@ -7,5 +7,11 @@
     "btmBarAc" : "Follow-up",
     "btmBarProfile" : "Profile",
     "profileName": "Name",
-    "profileAge": "Age"
+    "profileAge": "Age",
+    "sd1" : "Last update - ",
+    "sd2" : "Death rate: ",
+    "sd3" : "Confirmed cases: ",
+    "sd4" : "Total deaths: ",
+    "sd5" : "Cases/100 thousand inhabitants: ",
+    "sd6" : "Population: "
 }
