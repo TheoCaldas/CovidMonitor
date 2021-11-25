@@ -32,6 +32,9 @@ dependencies:
   numberpicker:
   timezone:
   flutter_local_notifications:
+  flutter_localizations:
+    sdk: flutter
+  intl:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -47,6 +50,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

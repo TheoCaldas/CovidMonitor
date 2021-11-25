@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'view/bottomNavigation.dart';
 import 'controller/notificationService.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BottomNavigation(title: 'Monitor Brasileiro de COVID-19'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
