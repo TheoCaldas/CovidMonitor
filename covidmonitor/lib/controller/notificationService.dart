@@ -1,8 +1,10 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationService {
   static final NotificationService notificationService =
@@ -78,10 +80,11 @@ class NotificationService {
         androidAllowWhileIdle: true);
   }
 
-  Future<void> scheduleThirdDose(DateTime fromDate) async {
-    final title = "3a Dose da Vacina Contra o Covid-19";
-    final body =
-        "Já está na hora de você tomar a terceira dose! Corra para o posto de saúde mais próximo.";
+  Future<void> scheduleThirdDose(
+      DateTime fromDate, BuildContext context) async {
+    var t = AppLocalizations.of(context);
+    final title = t!.notTitle;
+    final body = t!.notBody;
     final days = 90;
     final finalDay = fromDate.add(Duration(days: days));
     if (finalDay.difference(DateTime.now()).inDays > 0) {

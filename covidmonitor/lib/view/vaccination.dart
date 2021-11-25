@@ -120,7 +120,8 @@ class _VacinationState extends State<Vacination> {
         vacDate = formatDate(pickedDate);
       });
       await NotificationService.notificationService.cancelAllNotifications();
-      NotificationService.notificationService.scheduleThirdDose(pickedDate);
+      NotificationService.notificationService
+          .scheduleThirdDose(pickedDate, context);
     }
   }
 

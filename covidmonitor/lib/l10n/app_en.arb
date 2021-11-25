@@ -13,5 +13,7 @@
     "sd3" : "Confirmed cases: ",
     "sd4" : "Total deaths: ",
     "sd5" : "Cases/100 thousand inhabitants: ",
-    "sd6" : "Population: "
+    "sd6" : "Population: ",
+    "notTitle" : "3rd Dose of Covid-19 Vaccine",
+    "notBody" : "It's time for you to take the third dose! Run to the nearest health clinic."
 }

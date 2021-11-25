@@ -13,7 +13,9 @@
     "sd3" : "Casos confirmados: ",
     "sd4" : "Total de óbitos: ",
     "sd5" : "Casos/100 mil habitantes: ",
-    "sd6" : "População: "
+    "sd6" : "População: ",
+    "notTitle" : "3a Dose da Vacina Contra o Covid-19",
+    "notBody" : "Já está na hora de você tomar a terceira dose! Corra para o posto de saúde mais próximo."
 
 
 
