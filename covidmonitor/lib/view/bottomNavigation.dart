@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covidmonitor/view/statisticsPage.dart';
 import 'package:covidmonitor/view/profilePage.dart';
 import 'package:covidmonitor/model/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BottomNavigation extends StatefulWidget {
   BottomNavigation({Key? key, required this.title}) : super(key: key);
@@ -27,6 +28,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   }
 
   Widget build(BuildContext context) {
+    var t = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -40,17 +42,17 @@ class _BottomNavigationState extends State<BottomNavigation> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.coronavirus),
-              label: 'Estatísticas',
+              label: t!.btmBarStats,
               backgroundColor: Constants.backgroundColor,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.medical_services),
-              label: 'Acompanhamento',
+              label: t!.btmBarAc,
               backgroundColor: Constants.backgroundColor,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Perfil',
+              label: t!.btmBarProfile,
               backgroundColor: Constants.backgroundColor,
             ),
           ],

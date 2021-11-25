@@ -8,6 +8,7 @@ import 'package:covidmonitor/model/userData.dart';
 import 'package:covidmonitor/controller/imageGet.dart';
 import 'package:covidmonitor/model/constants.dart';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Vacination extends StatefulWidget {
   @override
@@ -36,13 +37,14 @@ class _VacinationState extends State<Vacination> {
 
   @override
   Widget build(BuildContext context) {
+    var t = AppLocalizations.of(context);
     return Scaffold(
         body: Center(
             child: Column(
       children: <Widget>[
         SizedBox(height: 20.0),
         Text(
-          "Carteira de Vacinação SUS",
+          t!.acTitle,
           style: Constants.theme.headline2,
         ),
         Container(
@@ -87,7 +89,7 @@ class _VacinationState extends State<Vacination> {
         Row(
           children: [
             Spacer(),
-            Text("Tomou segundo dose em: " + (vacDate ?? "-/-/-")),
+            Text(t!.acLabel + (vacDate ?? "-/-/-")),
             SizedBox(width: 20.0),
             ElevatedButton(
               onPressed: () => _selectDate(context),

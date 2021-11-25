@@ -1,3 +1,12 @@
 {
-    "appTitle": "Monitor Brasileiro de COVID-19"
+    "appTitle": "Monitor Brasileiro de COVID-19",
+    "statsPage": "Casos confirmados ",
+    "acTitle": "Carteira de Vacinação SUS",
+    "acLabel": "Tomou segunda dose em: ",
+    "btmBarStats" : "Estatísticas",
+    "btmBarAc" : "Acompanhamento",
+    "btmBarProfile" : "Perfil",
+    "profileName": "Nome",
+    "profileAge": "Idade"
+
 }

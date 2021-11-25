@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covidmonitor/model/constants.dart';
 import 'package:covidmonitor/model/stateInfoSearchResult.dart';
 import 'package:covidmonitor/controller/statesSearch.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatisticsPage extends StatefulWidget {
   StatisticsPage({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var t = AppLocalizations.of(context);
     return Container(
       child: FutureBuilder<StateInfoSearchResult>(
         future: _statesInfo,
@@ -54,7 +56,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                             ),
                             Padding(padding: EdgeInsets.all(30)),
                             Text(
-                              "Casos confirmados: " +
+                              t!.statsPage +
                                   snapshot.data!.results[index].confirmed
                                       .toString(),
                               style: Constants.theme.bodyText1,

@@ -1,3 +1,11 @@
 {
-    "appTitle": "Brasilian COVID-19 Monitor"
+    "appTitle": "Brasilian COVID-19 Monitor",
+    "statsPage": "Confirmed cases ",
+    "acTitle": "SUS Vaccination Card",
+    "acLabel": "took second dose in: ",
+    "btmBarStats" : "Statistics",
+    "btmBarAc" : "Follow-up",
+    "btmBarProfile" : "Profile",
+    "profileName": "Name",
+    "profileAge": "Age"
 }

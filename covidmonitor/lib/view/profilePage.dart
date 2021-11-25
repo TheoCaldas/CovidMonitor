@@ -7,6 +7,7 @@ import 'package:covidmonitor/model/constants.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'dart:io';
 import 'package:covidmonitor/controller/imageGet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -39,6 +40,8 @@ class _ProfilePage extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var t = AppLocalizations.of(context);
+
     return Column(
       children: [
         Container(
@@ -84,7 +87,8 @@ class _ProfilePage extends State<ProfilePage> {
           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: TextFormField(
             controller: _nameEditingController,
-            decoration: const InputDecoration(border: null, labelText: 'Nome'),
+            decoration:
+                InputDecoration(border: null, labelText: t!.profileName),
             onFieldSubmitted: (text) async {
               updateName(text);
             },
@@ -94,7 +98,7 @@ class _ProfilePage extends State<ProfilePage> {
         Row(
           children: [
             Spacer(),
-            Text("Idade: "),
+            Text(t!.profileAge + ": "),
             NumberPicker(
               value: currentAge,
               minValue: 0,
